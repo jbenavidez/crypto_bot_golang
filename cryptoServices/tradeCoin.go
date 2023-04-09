@@ -44,7 +44,7 @@ func ComparePlaceCoinsPrice() {
 	for _, v := range c {
 		coin := CalAvgPrice(v)
 		if coin.IsValidToBuy {
-			log.Printf("placing order for: ", coin.ID)
+			log.Println("placing order for: ", coin.ID)
 			models.PlaceOrder(coin, 1)
 			log.Println("Order created  for: ", coin.ID)
 		}

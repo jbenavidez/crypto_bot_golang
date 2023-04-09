@@ -15,10 +15,10 @@ Cryptocurrencies are on the rise, and we want to get in on the action. Let's bui
 
 #### Top Coin Service -> get and store top 3 coins in our db
 This module collect and store the top 3 coins in the market in our DB
-
+![Alt text](/git_images/p1.png "test locally" )
 #### Trade coin Service -> Analize and place order is the requirements are meet for a given coing
 This module is historical data for a given coin, and if the current price is lowest that market avg price; it Submit an error 
-
+![Alt text](/git_images/p2.png "test locally" )
  
 
  
@@ -28,7 +28,8 @@ This module is historical data for a given coin, and if the current price is low
 - PLACE order if crypto price is lower than the average price
 - STORE order info in our db
 
- 
+#### Logs 
+![Alt text](/git_images/p3.png "test locally" )
 
 ### Extra |  Crypto bot build on Python 
 - https://github.com/jbenavidez/crypto-bot
