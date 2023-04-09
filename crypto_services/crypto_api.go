@@ -70,6 +70,9 @@ func TopCoins() Coins {
 
 }
 
+// Returns a slide of slide
+// Item 0 -> Unix Timestamp
+// Item 1 -> price
 func GetCoinPriceHistory(coinId string) Prices {
 	client = &http.Client{Timeout: 10 * time.Second}
 	url := fmt.Sprintf("https://api.coingecko.com/api/v3/coins/%s/market_chart?vs_currency=usd&days=9&interval=daily", coinId)
