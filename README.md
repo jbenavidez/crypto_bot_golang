@@ -1,4 +1,4 @@
-# Python Libraries & db
+# Tech Stack
 <ul>
 <li>Golang</li>
 <li>gorm</li>
