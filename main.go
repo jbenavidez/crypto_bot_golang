@@ -10,9 +10,7 @@ func main() {
 	// init DB
 	models.ConnectDB()
 	models.DBMigrate()
-	// save 3 top coin
-	// c := cryptoServices.SaveTopThreeCoinsProcess() // save 3 top coin
-	// fmt.Println(c)
-	cryptoServices.ComparePlaceCoinsPrice() // buy coins
+	cryptoServices.SaveTopThreeCoinsProcess() // save 3 top coin
+	cryptoServices.ComparePlaceCoinsPrice()   // buy coins
 
 }

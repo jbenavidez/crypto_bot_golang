@@ -27,7 +27,7 @@ This module is historical data for a given coin, and if the current price is low
 - COMPARE crypto
 - PLACE order if crypto price is lower than the average price
 - STORE order info in our db
-- LOG info and error in log file
+
  
 
 ### Extra |  Crypto bot build on Python 

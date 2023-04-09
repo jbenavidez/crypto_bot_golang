@@ -32,12 +32,13 @@ func CalAvgPrice(c Coin) models.CoinTobuy {
 	if c.CurrentPrice < avg {
 		potentialGain := avg - c.CurrentPrice
 		coin.IsValidToBuy = true
-		log.Printf("Potential gain for %v\n:  %s\n", coin.ID, potentialGain)
+		log.Printf("Potential gain for %v\n:   %v\n", coin.ID, potentialGain)
 	}
 
 	return coin
 }
 
+// if avg price is below current, place order
 func ComparePlaceCoinsPrice() {
 	c := GetCoins()
 	for _, v := range c {
