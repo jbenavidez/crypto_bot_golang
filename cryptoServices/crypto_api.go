@@ -1,4 +1,4 @@
-package crypto_services
+package cryptoServices
 
 import (
 	"encoding/json"
@@ -10,7 +10,7 @@ import (
 
 var client *http.Client
 
-type Coins []struct {
+type Coin struct {
 	ID                           string    `json:"id"`
 	Symbol                       string    `json:"symbol"`
 	Name                         string    `json:"name"`
@@ -38,6 +38,7 @@ type Coins []struct {
 	Roi                          any       `json:"roi"`
 	LastUpdated                  time.Time `json:"last_updated"`
 }
+type Coins []Coin
 type Prices struct {
 	Prices       [][]float64 `json:"prices"`
 	MarketCaps   [][]float64 `json:"market_caps"`

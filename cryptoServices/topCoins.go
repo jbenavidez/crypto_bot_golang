@@ -1,4 +1,4 @@
-package crypto_services
+package cryptoServices
 
 import (
 	"crypto_bot_golang/models"
