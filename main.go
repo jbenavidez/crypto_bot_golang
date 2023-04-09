@@ -3,15 +3,17 @@ package main
 //	"crypto_bot_golang/services"
 import (
 	"crypto_bot_golang/crypto_services"
+	"crypto_bot_golang/models"
 	"fmt"
 )
 
 func main() {
-	c := crypto_services.GetTopThreeCoins()
-
-	for _, v := range c {
-		fmt.Println(v.CurrentPrice)
-	}
+	// init DB
+	models.ConnectDB()
+	models.DBMigrate()
+	// save 3 top coin
+	c := crypto_services.SaveTopThreeCoinsProcess()
+	fmt.Println(c)
 	//coinH := crypto_services.GetCoinPriceHistory("bitcoin")
 	//fmt.Println(coinH.Prices)
 }

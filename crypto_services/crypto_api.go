@@ -3,8 +3,8 @@ package crypto_services
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
-	"sort"
 	"time"
 )
 
@@ -44,19 +44,9 @@ type Prices struct {
 	TotalVolumes [][]float64 `json:"total_volumes"`
 }
 
-// This function will get the top 3 coins at the current time,
-func GetTopThreeCoins() Coins {
-	client = &http.Client{Timeout: 10 * time.Second}
-	coins := GetCoins()
-	//sort to get the top 3 coins
-	sort.Slice(coins[:], func(i, j int) bool {
-		return coins[i].CurrentPrice > coins[j].CurrentPrice
-	})
-	return coins[0:3]
-}
-
 // Get the coins at the current time.
 func GetCoins() Coins {
+	client = &http.Client{Timeout: 10 * time.Second}
 	url := "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
 	var coins Coins
 	err := GetJson(url, &coins)
@@ -70,7 +60,6 @@ func GetCoins() Coins {
 	// - symbol
 	// - name
 	// - current_price
-
 	return coins
 
 }
@@ -81,9 +70,9 @@ func GetCoinPriceHistory(coinId string) Prices {
 	var prices Prices
 	err := GetJson(url, &prices)
 	if err != nil {
-		fmt.Println("error getting coins", err)
+		log.Println("error getting coins", err)
 	} else {
-		fmt.Println("Coin prices retrieved")
+		log.Println("Coin prices retrieved")
 	}
 	// Important keys
 	// Item 0 -> Unix Timestamp
