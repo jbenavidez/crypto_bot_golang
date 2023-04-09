@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
-	x := crypto_services.GetCryptoCoins()
-	fmt.Println(x)
+	c := crypto_services.GetCryptoCoins()
+	fmt.Println(c[0].ID)
+	coinH := crypto_services.GetCoinPriceHistory("bitcoin")
+	fmt.Println(coinH.Prices)
 }
