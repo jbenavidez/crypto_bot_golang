@@ -2,7 +2,6 @@
 <ul>
 <li>Golang</li>
 <li>gorm</li>
-<li>SQLite</li>
 </ul>
  
 ## Instructions
@@ -29,4 +28,8 @@ This module is historical data for a given coin, and if the current price is low
 - PLACE order if crypto price is lower than the average price
 - STORE order info in our db
 - LOG info and error in log file
+ 
+
+### Extra |  Crypto bot build on Python 
+- https://github.com/jbenavidez/crypto-bot
  
