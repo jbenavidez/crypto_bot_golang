@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -14,21 +15,21 @@ type Coins []struct {
 	Symbol                       string    `json:"symbol"`
 	Name                         string    `json:"name"`
 	Image                        string    `json:"image"`
-	CurrentPrice                 int       `json:"current_price"`
-	MarketCap                    int64     `json:"market_cap"`
-	MarketCapRank                int       `json:"market_cap_rank"`
-	FullyDilutedValuation        int64     `json:"fully_diluted_valuation"`
-	TotalVolume                  int64     `json:"total_volume"`
-	High24H                      int       `json:"high_24h"`
-	Low24H                       int       `json:"low_24h"`
+	CurrentPrice                 float64   `json:"current_price"`
+	MarketCap                    float64   `json:"market_cap"`
+	MarketCapRank                float64   `json:"market_cap_rank"`
+	FullyDilutedValuation        float64   `json:"fully_diluted_valuation"`
+	TotalVolume                  float64   `json:"total_volume"`
+	High24H                      float64   `json:"high_24h"`
+	Low24H                       float64   `json:"low_24h"`
 	PriceChange24H               float64   `json:"price_change_24h"`
 	PriceChangePercentage24H     float64   `json:"price_change_percentage_24h"`
-	MarketCapChange24H           int       `json:"market_cap_change_24h"`
+	MarketCapChange24H           float64   `json:"market_cap_change_24h"`
 	MarketCapChangePercentage24H float64   `json:"market_cap_change_percentage_24h"`
 	CirculatingSupply            float64   `json:"circulating_supply"`
 	TotalSupply                  float64   `json:"total_supply"`
 	MaxSupply                    float64   `json:"max_supply"`
-	Ath                          int       `json:"ath"`
+	Ath                          float64   `json:"ath"`
 	AthChangePercentage          float64   `json:"ath_change_percentage"`
 	AthDate                      time.Time `json:"ath_date"`
 	Atl                          float64   `json:"atl"`
@@ -43,20 +44,19 @@ type Prices struct {
 	TotalVolumes [][]float64 `json:"total_volumes"`
 }
 
-// This function will get the top 10 coins at the current time,
-// sorted by market cap in desc order.
-func GetCryptoCoins() Coins {
+// This function will get the top 3 coins at the current time,
+func GetTopThreeCoins() Coins {
 	client = &http.Client{Timeout: 10 * time.Second}
-	coins := TopCoins()
-	return coins
+	coins := GetCoins()
+	//sort to get the top 3 coins
+	sort.Slice(coins[:], func(i, j int) bool {
+		return coins[i].CurrentPrice > coins[j].CurrentPrice
+	})
+	return coins[0:3]
 }
 
-// Important keys
-// - id
-// - symbol
-// - name
-// - current_price
-func TopCoins() Coins {
+// Get the coins at the current time.
+func GetCoins() Coins {
 	url := "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false"
 	var coins Coins
 	err := GetJson(url, &coins)
@@ -65,14 +65,16 @@ func TopCoins() Coins {
 	} else {
 		fmt.Println("coins retrieved", len(coins))
 	}
+	// Important keys
+	// - id
+	// - symbol
+	// - name
+	// - current_price
 
 	return coins
 
 }
 
-// Returns a slide of slide
-// Item 0 -> Unix Timestamp
-// Item 1 -> price
 func GetCoinPriceHistory(coinId string) Prices {
 	client = &http.Client{Timeout: 10 * time.Second}
 	url := fmt.Sprintf("https://api.coingecko.com/api/v3/coins/%s/market_chart?vs_currency=usd&days=9&interval=daily", coinId)
@@ -83,6 +85,9 @@ func GetCoinPriceHistory(coinId string) Prices {
 	} else {
 		fmt.Println("Coin prices retrieved")
 	}
+	// Important keys
+	// Item 0 -> Unix Timestamp
+	// Item 1 -> price
 	return prices
 }
 
