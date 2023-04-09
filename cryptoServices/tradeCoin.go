@@ -1,23 +1,16 @@
 package cryptoServices
 
 import (
+	"crypto_bot_golang/models"
 	"fmt"
 	"log"
 
 	"github.com/montanaflynn/stats"
 )
 
-type CoinTobuy struct {
-	ID           string  `json:"id"`
-	Symbol       string  `json:"symbol"`
-	CurrentPrice float64 `json:"current_price"`
-	IsValidToBuy bool    `json:"is_valid"`
-	AvgPrice     float64 `json:"avg_price"`
-}
-
 // Calculate avg price for a given coin
-func CalAvgPrice(c Coin) Coin {
-	//log.Println("calculating avg price for %s", c.Name)
+func CalAvgPrice(c Coin) models.CoinTobuy {
+	log.Println("calculating avg price for ", c.Name)
 	ph := GetCoinPriceHistory(c.ID)
 	var coinPrice []float64
 	for _, v := range ph.Prices {
@@ -27,7 +20,7 @@ func CalAvgPrice(c Coin) Coin {
 	if err != nil {
 		fmt.Println(err)
 	}
-	coin := CoinTobuy{
+	coin := models.CoinTobuy{
 		ID:           c.ID,
 		Symbol:       c.Symbol,
 		CurrentPrice: c.CurrentPrice,
@@ -35,20 +28,26 @@ func CalAvgPrice(c Coin) Coin {
 		AvgPrice:     avg,
 	}
 	// check if place order is needed
-	log.Println("checking price for %s", coin.ID)
+	log.Println("checking price for ", coin.ID)
 	if c.CurrentPrice < avg {
 		potentialGain := avg - c.CurrentPrice
 		coin.IsValidToBuy = true
-		log.Println("Potential gain for %s: %%", coin.ID, potentialGain)
+		log.Printf("Potential gain for %v\n:  %s\n", coin.ID, potentialGain)
 	}
 
-	return c
+	return coin
 }
 
 func ComparePlaceCoinsPrice() {
 	c := GetCoins()
 	for _, v := range c {
-		CalAvgPrice(v)
+		coin := CalAvgPrice(v)
+		if coin.IsValidToBuy {
+			log.Println("placing order for %s", coin.ID)
+			models.PlaceOrder(coin, 1)
+			log.Println("Order created  for %s", coin.ID)
+		}
+
 	}
 
 }

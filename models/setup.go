@@ -20,5 +20,6 @@ func ConnectDB() {
 
 func DBMigrate() {
 	DB.AutoMigrate(&Coin{})
+	DB.AutoMigrate(&Trade{})
 
 }
