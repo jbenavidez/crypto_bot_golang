@@ -2,11 +2,11 @@ package main
 
 //	"crypto_bot_golang/services"
 import (
-	"crypto_bot_golang/services"
+	"crypto_bot_golang/crypto_services"
 	"fmt"
 )
 
 func main() {
-	x := services.GetCryptoCoins()
+	x := crypto_services.GetCryptoCoins()
 	fmt.Println(x)
 }
